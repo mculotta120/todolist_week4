@@ -1,0 +1,36 @@
+body {
+    background-image: url("images/notebook_bkg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    font-family: 'Just Me Again Down Here', cursive;
+}
+h1{
+  font-size: 40px;
+  text-align: center;
+}
+
+h2{
+  font-size: 30px;
+  text-align: center;
+  margin: 30px;
+}
+
+p{
+  font-size: 20px;
+  margin: 10px;
+}
+#entry{
+  margin-left: 30px;
+}
+#empty{
+  margin-bottom: 30px;
+}
+#main{
+  background-color: rgba(255,255,255, 0.7);
+  margin: 100px;
+  box-shadow: 10px 10px 5px #888888;
+}
+#listDisplay{
+  /*border: 3px solid black;*/
+  margin: 10px 30px 30px 30px;
+}

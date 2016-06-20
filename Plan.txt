@@ -1,0 +1,13 @@
+ToDo list:
+√-create task (like create user in class example)
+√-add task to database
+-append tasks to dom (show list?)
+-update task in database (to do, complete...dropdown in front end? when complete cross out?)
+-delete task from front end and database (add a prompt to ask if user is sure)
+
+
+Theme: notebook paper? handwriting font:
+<link href='https://fonts.googleapis.com/css?family=Just+Me+Again+Down+Here&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+css:
+font-family: 'Just Me Again Down Here', cursive;
