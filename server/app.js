@@ -23,6 +23,7 @@ app.post( '/createnew', urlencodedParser, function( req, res){
   console.log(req.body.task + req.body.active ) ;
 pg.connect( connectionString, function( err, client, done ){
     client.query( 'INSERT INTO todolist ( task, active) VALUES ( $1, $2 )', [ req.body.task, req.body.active] );
+    done();
   });
 }); // end createNew
 
@@ -30,6 +31,7 @@ app.post( '/createupdate', urlencodedParser, function( req, res ){
   console.log( 'in POST update: ' + req.body.task + " with " + req.body.active );
   pg.connect( connectionString, function( err, client, done ){
     client.query( "UPDATE todolist SET active = '" + req.body.active + "' WHERE task= '" + req.body.task + "'");
+  done();
   });
 }); // end updateUser
 
@@ -40,11 +42,11 @@ app.get( '/getlist', function( req, res ){
         var query = client.query('SELECT * FROM todolist ORDER BY task DESC;');
         query.on( 'row', function( row ) {
             results.push( row );
+        done();
         }); // end row
         // close connection
         query.on('end', function() {
-            done();
-            return res.json(results);
+        return res.json(results);
         }); // end onEnd
         if(err) {
             console.log(err);
