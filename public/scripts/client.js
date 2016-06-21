@@ -1,5 +1,15 @@
 
 $( document ).ready( function(){
+  $(window).load(function(){
+    showList();
+  });
+
+$('#submit').on('click', function(){
+  processTask();
+  $('#taskIn').val("");
+});
+
+function getTask (){
   $.ajax({
       type: 'GET',
       url: '/getlist',
@@ -7,11 +17,7 @@ $( document ).ready( function(){
         showList(data);
       } // end success
     }); //end ajax
-    $( '#submit' ).on( 'click', function(event){
-    $('#taskIn').val(""); //clear input after submit is clicked
-    processTask(); //send object
-    }); //end submit click
-
+  }
 
   var processTask = function(){ //object to send
       var taskItem = $('#taskIn').val();
@@ -24,40 +30,38 @@ $( document ).ready( function(){
       $.ajax({
             type: "POST",
             url:'/createnew',
-            data: taskObject
+            data: taskObject,
+            success: function(){
+              showList();
+            } // end success
           }); //end ajax
   }; //processTask
 
+    var showList =  function( ){
+          $.ajax({
+              type: 'GET',
+              url: '/getlist',
+              success: function( data ){
+                for (i=0; i< data.length; i++){
+                $('#taskIn').val("");
+                var newTaskItem = data[i].task;
+                $('#listDisplay').append("<div id = '[i]'><p>"+ newTaskItem + " " + "<button type='button' id='" + i + "done' value = 'complete'>complete</button></div>");
+                //Create a click event for the submit button
+                 $('#' + i + 'done').click(function(){
+                     //Update the task object
+                     var updatedTask ={
+                             "task" : newTaskItem,
+                             "active" : false
+                           }; //end updatedTaskObject
+                     $.ajax({
+                           type: "POST",
+                           url:'/createupdate',
+                           data: updatedTask
+                         }); //end ajax
+                        });// end listDisplay
+                    }//end loop
+              } // end success
+            }); //end ajax
 
-
-      function showList( todolist ){
-              $.ajax({
-                  type: 'GET',
-                  url: '/getlist',
-                  success: function( data ){
-                  } // end success
-                }); //end ajax
-
-              for (i=0; i< todolist.length; i++){
-              $('#taskIn').val("");
-              var newTaskItem = todolist[i].task;
-              $('#listDisplay').append("<div id = '[i]'><p>"+ newTaskItem + " " + "<button type='button' id='" + i + "done' value = 'complete'>complete</button></div>");
-              //Create a click event for the submit button
-               $('#' + i + 'done').click(function(){
-                   //Update the task object
-                   var updatedTask ={
-                           "task" : newTaskItem,
-                           "active" : false
-                         }; //end updatedTaskObject
-
-                   $.ajax({
-                         type: "POST",
-                         url:'/createupdate',
-                         data: updatedTask
-                       }); //end ajax
-                       $(this).parent().empty();
-                       $('#listDisplay').append("<div id = '[i]'><p>"+'<strike>'+ newTaskItem +'</strike></div>');
-                      });// end listDisplay
-                  }//end loop
-              }//end show  list
+              }; //end show  list
 }); //end document ready
